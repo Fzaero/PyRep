@@ -121,6 +121,12 @@ def simGetObjectPosition(objectHandle, relativeToObjectHandle):
     return list(position)
 
 
+def simCreateJoint(jointType, jointMode, options, sizes):
+    handle = lib.simCreateJoint(jointType,jointMode,options,sizes,ffi.NULL,ffi.NULL)
+    _check_return(handle)
+    return handle
+
+
 def simGetJointPosition(jointHandle):
     position = ffi.new('float *')
     lib.simGetJointPosition(jointHandle, position)
