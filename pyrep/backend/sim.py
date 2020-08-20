@@ -167,6 +167,10 @@ def simSetJointTargetPosition(jointHandle, targetPosition):
     lib.simSetJointTargetPosition(jointHandle, targetPosition)
 
 
+def simAddForce(shapeHandle, position, force):
+    lib.simAddForce(shapeHandle, position,force)
+
+
 def simGetJointForce(jointHandle):
     force = ffi.new('float *')
     ret = lib.simGetJointForce(jointHandle, force)
@@ -602,6 +606,20 @@ def simGetObjectVelocity(objectHandle):
     ret = lib.simGetObjectVelocity(objectHandle, linearVel, angularVel)
     _check_return(ret)
     return list(linearVel), list(angularVel)
+
+
+def simGetShapeMassAndInertia(shapeHandle):
+    mass = ffi.new('float *')
+    inertiaMatrix = ffi.new('float[9]')
+    centerOfMass = ffi.new('float[3]')
+    ret = lib.simGetShapeMassAndInertia(shapeHandle, mass, inertiaMatrix, centerOfMass, ffi.NULL)
+    _check_return(ret)
+    return mass[0], list(inertiaMatrix), list(centerOfMass)
+
+
+def simSetShapeMassAndInertia(shapeHandle, mass, inertiaMatrix, centerOfMass):
+    ret = lib.simSetShapeMassAndInertia(shapeHandle, mass, inertiaMatrix, centerOfMass, ffi.NULL)
+    return ret
 
 
 def simCreateStack():
